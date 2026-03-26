@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Customer Portal — Enterprise Self-Service Suite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap"
+    rel="stylesheet">
+  <style>
+    /* ------------------------------------------------------------
+      CUSTOMER PORTAL — PRESENTATION STYLES (Combined)
+       ------------------------------------------------------------ */
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    :root {
+      --bg-white: #ffffff;
+      --bg-light: #f8fafc;
+      --bg-offwhite: #f1f5f9;
+      --ink: #0f172a;
+      --ink-light: #1e293b;
+      --ink-lighter: #334155;
+      --muted: #64748b;
+      --cyan: #06b6d4;
+      --cyan-dark: #0891b2;
+      --cyan-light: #22d3ee;
+      --cyan-glow: rgba(6, 182, 212, 0.10);
+      --blue: #3b82f6;
+      --blue-light: #60a5fa;
+      --teal: #14b8a6;
+      --gold: #f59e0b;
+      --border: rgba(0, 0, 0, 0.08);
+      --border-light: rgba(0, 0, 0, 0.05);
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.10), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.10), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.10), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --r: 16px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #deck {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 70px 72px 90px;
+      opacity: 0;
+      pointer-events: none;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      will-change: opacity, transform;
+      transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateX(60px);
+    }
+
+    .slide::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .slide::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    .slide::-webkit-scrollbar-thumb {
+      background: var(--cyan);
+      border-radius: 4px;
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateX(0);
+      z-index: 2;
+    }
+
+    .slide.exit-left {
+      opacity: 0;
+      transform: translateX(-60px);
+      z-index: 1;
+    }
+
+    .slide.exit-right {
+      opacity: 0;
+      transform: translateX(60px);
+      z-index: 1;
+    }
+
+    .bg-dark {
+      background: var(--bg-white);
+    }
+
+    .bg-dark2 {
+      background: var(--bg-light);
+    }
+
+    .bg-dark3 {
+      background: var(--bg-offwhite);
+    }
+
+    .grid-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(rgba(6, 182, 212, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(6, 182, 212, 0.03) 1px, transparent 1px);
+      background-size: 52px 52px;
+    }
+
+    .glow {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(80px);
+    }
+
+    .glow--hero {
+      top: -15%;
+      left: 45%;
+      width: 700px;
+      height: 480px;
+      background: radial-gradient(ellipse, rgba(0, 201, 167, 0.25) 0%, transparent 65%);
+    }
+
+    .glow--overview {
+      top: 10%;
+      right: -8%;
+      width: 500px;
+      height: 400px;
+      background: radial-gradient(ellipse, rgba(0, 201, 167, 0.20) 0%, transparent 65%);
+    }
+
+    .glow--arch {
+      bottom: -10%;
+      left: -5%;
+      width: 480px;
+      height: 380px;
+      background: radial-gradient(ellipse, rgba(0, 201, 167, 0.20) 0%, transparent 65%);
+    }
+
+    .glow--caps {
+      top: -10%;
+      right: 0;
+      width: 500px;
+      height: 420px;
+      background: radial-gradient(ellipse, rgba(0, 201, 167, 0.15) 0%, transparent 65%);
+    }
+
+    .glow--screens-a {
+      top: 5%;
+      left: -5%;
+      width: 400px;
+      height: 360px;
+      background: radial-gradient(ellipse, rgba(0, 201, 167, 0.15) 0%, transparent 65%);
+    }
+
+    .glow--screens-b {
+      top: 5%;
+      right: -5%;
+      width: 400px;
+      height: 360px;
+      background: radial-gradient(ellipse, rgba(0, 201, 167, 0.15) 0%, transparent 65%);
+    }
+
+    .glow--integrations {
+      bottom: 0;
+      left: 30%;
+      width: 600px;
+      height: 350px;
+      background: radial-gradient(ellipse, rgba(0, 201, 167, 0.15) 0%, transparent 65%);
+    }
+
+    .glow--compliance {
+      top: -10%;
+      right: -5%;
+      width: 500px;
+      height: 420px;
+      background: radial-gradient(ellipse, rgba(0, 201, 167, 0.15) 0%, transparent 65%);
+    }
+
+    .glow--benefits {
+      top: 10%;
+      right: -5%;
+      width: 500px;
+      height: 420px;
+      background: radial-gradient(ellipse, rgba(0, 201, 167, 0.15) 0%, transparent 65%);
+    }
+
+    .glow--cta {
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 500px;
+      background: radial-gradient(ellipse, rgba(0, 201, 167, 0.35) 0%, transparent 65%);
+    }
+
+    #topnav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      background: rgba(255, 255, 255, 0.95);
+      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      height: 100%;
+    }
+
+    .logo-sq {
+      height: 50px;
+      display: flex;
+      align-items: center;
+    }
+
+    .logo-img {
+      height: 100%;
+      width: auto;
+      object-fit: contain;
+      mix-blend-mode: multiply;
+    }
+
+    .nav-logo-txt {
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: -0.3px;
+      background: linear-gradient(135deg, #22d3ee, #2563eb);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      white-space: nowrap;
+    }
+
+    .nav-pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: nowrap;
+    }
+
+    .nav-pill {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink-lighter);
+      padding: 6px 14px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .nav-pill:hover {
+      color: var(--cyan);
+      background: rgba(6, 182, 212, 0.08);
+    }
+
+    .nav-pill.active {
+      color: var(--cyan);
+      background: rgba(6, 182, 212, 0.12);
+      border: 1px solid rgba(6, 182, 212, 0.30);
+    }
+
+    .nav-counter {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.3px;
+      margin-left: 16px;
+    }
+
+    .arr-btn {
+      position: fixed;
+      top: 50%;
+      z-index: 50;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--bg-white);
+      border: 1px solid var(--border);
+      color: var(--cyan);
+      font-size: 20px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: var(--transition);
+      box-shadow: var(--shadow-md);
+    }
+
+    .arr-btn:hover {
+      background: var(--cyan);
+      color: white;
+      transform: translateY(-50%) scale(1.1);
+      border-color: var(--cyan);
+    }
+
+    #prevBtn {
+      left: 24px;
+    }
+
+    #nextBtn {
+      right: 24px;
+    }
+
+    #dotnav {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 50;
+      display: flex;
+      gap: 10px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.2);
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .dot.active {
+      width: 28px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      box-shadow: 0 0 12px rgba(6, 182, 212, 0.4);
+    }
+
+    .swipe-hint {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 11px;
+      color: var(--muted);
+      z-index: 40;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .eyebrow {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 14px;
+    }
+
+    .slide-title {
+      font-weight: 800;
+      font-size: clamp(36px, 5vw, 64px);
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      color: var(--ink);
+      margin-bottom: 18px;
+    }
+
+    .slide-title--xl {
+      font-size: clamp(32px, 5vw, 62px);
+    }
+
+    .slide-title--lg {
+      font-size: clamp(28px, 4vw, 52px);
+    }
+
+    .slide-title--md {
+      font-size: clamp(26px, 3.5vw, 46px);
+    }
+
+    .slide-title--sm {
+      font-size: clamp(24px, 3vw, 40px);
+    }
+
+    .slide-title em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .slide-body {
+      font-size: 16px;
+      color: var(--ink-lighter);
+      line-height: 1.6;
+      max-width: 620px;
+    }
+
+    .slide-body--narrow {
+      max-width: 420px;
+    }
+
+    .accent-text {
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(6, 182, 212, 0.08);
+      color: var(--cyan);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 7px 18px;
+      border-radius: 100px;
+      border: 1px solid rgba(6, 182, 212, 0.20);
+      margin-bottom: 24px;
+    }
+
+    .pulse {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.5;
+        transform: scale(1.2);
+      }
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 28px 0;
+    }
+
+    .btn {
+      font-size: 14px;
+      font-weight: 600;
+      padding: 12px 28px;
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      border: none;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-solid {
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      color: white;
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      background: rgba(6, 182, 212, 0.05);
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 56px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 40px;
+      padding-top: 36px;
+      border-top: 1px solid var(--border);
+    }
+
+    .stat-num {
+      font-weight: 800;
+      font-size: 38px;
+      color: var(--ink);
+      letter-spacing: -1px;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 2px;
+    }
+
+    .stat-symbol {
+      font-size: 22px;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .stat-lbl {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .card-grid {
+      display: grid;
+      gap: 18px;
+      width: 100%;
+      margin-top: 36px;
+    }
+
+    .g2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .g3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .g4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .card {
+      background: var(--bg-white);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 20px;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .card:hover {
+      border-color: rgba(6, 182, 212, 0.30);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .card-icon {
+      font-size: 24px;
+      margin-bottom: 14px;
+    }
+
+    .card h3 {
+      font-weight: 700;
+      font-size: 15px;
+      margin-bottom: 8px;
+    }
+
+    .card p,
+    .card ul li {
+      font-size: 13px;
+      color: var(--ink-lighter);
+      line-height: 1.5;
+    }
+
+    .card ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .card ul li::before {
+      content: "✓";
+      font-weight: 700;
+      font-size: 11px;
+      margin-right: 8px;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
+    }
+
+    .arch-layers {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .arch-layer {
+      background: var(--bg-white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 18px;
+      transition: var(--transition);
+    }
+
+    .arch-layer:hover {
+      border-color: rgba(6, 182, 212, 0.30);
+    }
+
+    .arch-layer-hdr {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .arch-layer-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: rgba(6, 182, 212, 0.10);
+    }
+
+    .arch-layer-title {
+      font-weight: 700;
+      font-size: 13px;
+      flex: 1;
+    }
+
+    .arch-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .chip {
+      background: var(--bg-light);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 4px 10px;
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--ink-lighter);
+    }
+
+    .screen-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .screen-card {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--bg-white);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .screen-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-xl);
+      border-color: rgba(6, 182, 212, 0.30);
+    }
+
+    .screen-img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: var(--bg-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .screen-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .screen-ph {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+    }
+
+    .screen-meta {
+      padding: 10px 12px;
+    }
+
+    .screen-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .screen-desc {
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .int-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 32px;
+      width: 100%;
+    }
+
+    .int-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--bg-white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 14px;
+      transition: var(--transition);
+    }
+
+    .int-pill:hover {
+      border-color: var(--cyan);
+      transform: translateY(-2px);
+    }
+
+    .int-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+    }
+
+    .int-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .int-cat {
+      font-size: 9px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+      align-items: start;
+      width: 100%;
+    }
+
+    .slide-inner {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .slide-inner.wide {
+      max-width: 1300px;
+    }
+
+    .slide-inner.center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .contact-row {
+      display: flex;
+      gap: 40px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+    }
+
+    .contact-item {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink-lighter);
+    }
+
+    .contact-item strong {
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    #lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0, 0, 0, 0.95);
+      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+    }
+
+    #lightbox.active {
+      display: flex;
+    }
+
+    .lightbox-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+    }
+
+    .lightbox-image {
+      max-width: 100%;
+      max-height: 85vh;
+      border-radius: 16px;
+      box-shadow: var(--shadow-xl);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .lightbox-close {
+      position: fixed;
+      top: 24px;
+      right: 28px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      font-size: 28px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: 0.2s;
+      z-index: 210;
+    }
+
+    .lightbox-overlay {
+      position: absolute;
+      inset: 0;
+      cursor: pointer;
+    }
+
+    @media (max-width: 1024px) {
+      .slide {
+        padding: 60px 32px 80px;
+      }
+
+      .g3,
+      .g4 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .screen-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .two-col {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+
+      .nav-pills {
+        display: none;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .slide {
+        padding: 56px 20px 70px;
+      }
+
+      .hero-stats {
+        gap: 24px;
+      }
+
+      .stat-num {
+        font-size: 28px;
+      }
+
+      .screen-grid {
+        gap: 12px;
+      }
+    }
+
+    @media (max-width: 640px) {
+
+      .g2,
+      .g3,
+      .g4 {
+        grid-template-columns: 1fr;
+      }
+
+      .screen-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .arr-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 18px;
+      }
+
+      #prevBtn {
+        left: 12px;
+      }
+
+      #nextBtn {
+        right: 12px;
+      }
+
+      .hero-btns {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav id="topnav">
+    <div class="nav-logo">
+      <div class="logo-sq">
+        <img src="logo.png" alt="IDProITC Logo" class="logo-img">
+      </div>
+      <span class="nav-logo-txt">Payment Portal</span>
+    </div>
+    <div class="nav-pills" id="navPills"></div>
+    <span class="nav-counter" id="navCounter">1 / 10</span>
+  </nav>
+  <button class="arr-btn" id="prevBtn">←</button>
+  <button class="arr-btn" id="nextBtn">→</button>
+  <div id="dotnav"></div>
+  <div class="swipe-hint">← swipe or use arrow keys →</div>
+
+  <div id="deck">
+    <!-- SLIDE 1 -->
+    <section class="slide bg-dark active" id="s1" data-title="Home">
+      <div class="grid-overlay"></div>
+      <div class="glow glow--hero"></div>
+      <div class="slide-inner center">
+        <div class="badge"><span class="pulse"></span>Enterprise-ready · White-label · Multi-tenant</div>
+        <h1 class="slide-title">Customer Invoice &amp; <em>Payment Portal</em></h1>
+        <p class="slide-body">A production-grade self-service portal for invoice management, online payments, and
+          account administration — integrated with Oracle EBS, Fusion, and leading payment gateways.</p>
+        <div class="hero-btns"><button class="btn btn-solid" data-goto="5">📷 View Screenshots</button><button
+            class="btn btn-outline" data-goto="3">📊 See Architecture</button></div>
+        <div class="hero-stats">
+          <div>
+            <div class="stat-num">360<span class="stat-symbol">°</span></div>
+            <div class="stat-lbl">ERP integration coverage</div>
+          </div>
+          <div>
+            <div class="stat-num">5<span class="stat-symbol">+</span></div>
+            <div class="stat-lbl">Payment gateways</div>
+          </div>
+          <div>
+            <div class="stat-num">PCI<span class="stat-symbol">-DSS</span></div>
+            <div class="stat-lbl">Payment compliant</div>
+          </div>
+          <div>
+            <div class="stat-num">SSO<span class="stat-symbol">+</span></div>
+            <div class="stat-lbl">Enterprise IAM / RBAC</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- SLIDE 2 Overview -->
+    <section class="slide bg-dark2" id="s2" data-title="Overview">
+      <div class="grid-overlay"></div>
+      <div class="glow glow--overview"></div>
+      <div class="slide-inner"><span class="eyebrow">What we deliver</span>
+        <h2 class="slide-title slide-title--lg">One portal. Every invoice.<br><em>Any ERP.</em></h2>
+        <p class="slide-body">Customers self-serve — view, download, and pay invoices, manage accounts and ZIP codes,
+          and control user access without calling your finance team.</p>
+        <div class="card-grid g3">
+          <div class="card">
+            <div class="card-icon">📄</div>
+            <h3>Invoice management</h3>
+            <p>View, filter, and download PDF invoices in real time from EBS / Fusion AR.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">💳</div>
+            <h3>Online payments</h3>
+            <p>Pay via JPMC, Stripe, Braintree, or Adyen. Tokenised — no card data on your servers.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">🏢</div>
+            <h3>Account &amp; ZIP mgmt</h3>
+            <p>Manage multiple business accounts and service ZIP codes with full audit trail.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">👥</div>
+            <h3>User access control</h3>
+            <p>Role-based access. Admins invite, grant, and revoke permissions without IT.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">🧾</div>
+            <h3>Payment receipts</h3>
+            <p>Instant PDF receipt after every payment, synced back to ERP cash application.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">⚙️</div>
+            <h3>White-label multi-tenant</h3>
+            <p>Fully brandable per client with isolated data and per-client ERP connectors.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- SLIDE 3 Architecture -->
+    <section class="slide bg-dark3" id="s3" data-title="Architecture">
+      <div class="grid-overlay"></div>
+      <div class="glow glow--arch"></div>
+      <div class="slide-inner wide">
+        <div class="two-col">
+          <div><span class="eyebrow">System architecture</span>
+            <h2 class="slide-title slide-title--md">Built on open,<br><em>pluggable layers</em></h2>
+            <p class="slide-body slide-body--narrow">Every component is swappable. Change your ERP, IAM, payment
+              gateway, or cloud provider without touching the portal core.</p>
+          </div>
+          <div class="arch-layers">
+            <div class="arch-layer">
+              <div class="arch-layer-hdr">
+                <div class="arch-layer-icon">💻</div><span class="arch-layer-title">Presentation layer</span>
+              </div>
+              <div class="arch-chips"><span class="chip">Angular / React UI</span><span class="chip">Azure DevOps ·
+                  GitHub CI</span><span class="chip">Azure / OCI / AWS Hosting</span><span class="chip">Mobile
+                  PWA</span></div>
+            </div>
+            <div class="arch-layer">
+              <div class="arch-layer-hdr">
+                <div class="arch-layer-icon">🔒</div><span class="arch-layer-title">Identity &amp; access
+                  management</span>
+              </div>
+              <div class="arch-chips"><span class="chip">Oracle IAM / IDCS</span><span class="chip">Azure AD /
+                  Entra</span><span class="chip">Okta · Auth0 · Ping</span><span class="chip">RBAC / ABAC</span></div>
+            </div>
+            <div class="arch-layer">
+              <div class="arch-layer-hdr">
+                <div class="arch-layer-icon">⚡</div><span class="arch-layer-title">API management &amp;
+                  integration</span>
+              </div>
+              <div class="arch-chips"><span class="chip">Oracle OIC</span><span class="chip">Azure APIM ·
+                  Kong</span><span class="chip">Kafka · Azure Service Bus</span></div>
+            </div>
+            <div class="arch-layer">
+              <div class="arch-layer-hdr">
+                <div class="arch-layer-icon">🏦</div><span class="arch-layer-title">Business apps — ERP / billing /
+                  payments</span>
+              </div>
+              <div class="arch-chips"><span class="chip">Oracle EBS R12/R11</span><span class="chip">Oracle
+                  Fusion</span><span class="chip">SAP · NetSuite</span><span class="chip">JPMC · Stripe · Braintree ·
+                  Adyen</span></div>
+            </div>
+            <div class="arch-layer">
+              <div class="arch-layer-hdr">
+                <div class="arch-layer-icon">🗄️</div><span class="arch-layer-title">Data &amp; storage</span>
+              </div>
+              <div class="arch-chips"><span class="chip">Oracle DB · Postgres</span><span class="chip">Azure Blob · S3 ·
+                  OCI</span><span class="chip">ELK · Splunk · Monitor</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- SLIDE 4 Capabilities -->
+    <section class="slide bg-dark" id="s4" data-title="Capabilities">
+      <div class="grid-overlay"></div>
+      <div class="glow glow--caps"></div>
+      <div class="slide-inner wide"><span class="eyebrow">Core capabilities</span>
+        <h2 class="slide-title slide-title--md">Everything your client needs <span class="accent-text">on day one</span>
+        </h2>
+        <div class="card-grid g2">
+          <div class="card">
+            <div class="card-icon">📄</div>
+            <h3>Invoice &amp; document hub</h3>
+            <ul>
+              <li>Paginated list with advanced date / status filters</li>
+              <li>Inline PDF viewer + one-click download</li>
+              <li>Invoice status badges (open / paid / overdue)</li>
+              <li>Bulk export as ZIP · real-time ERP sync</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-icon">💳</div>
+            <h3>Payment &amp; reconciliation</h3>
+            <ul>
+              <li>Pay single or multiple invoices in one checkout</li>
+              <li>Saved tokenised payment methods</li>
+              <li>Instant PDF receipt on confirmation</li>
+              <li>Auto write-back to ERP (cash application)</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-icon">👥</div>
+            <h3>User &amp; permission management</h3>
+            <ul>
+              <li>Role hierarchy: Admin / Finance / Viewer</li>
+              <li>Invite by email · group-based access scoping</li>
+              <li>Oracle IAM / Azure AD / Okta SSO</li>
+              <li>Full permission audit log</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-icon">🏢</div>
+            <h3>Account &amp; configuration</h3>
+            <ul>
+              <li>Manage multiple business accounts</li>
+              <li>Service ZIP code assignment per account</li>
+              <li>White-label branding per tenant</li>
+              <li>Notification preferences &amp; email alerts</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- SLIDE 5 Screenshots A -->
+    <section class="slide bg-dark2 slide--screenshots" id="s5" data-title="Screenshots">
+      <div class="glow glow--screens-a"></div>
+      <div class="slide-inner wide"><span class="eyebrow">Portal showcase · invoices &amp; payments</span>
+        <h2 class="slide-title slide-title--sm">Invoice &amp; payment <em>screens</em></h2>
+        <div class="screen-grid">
+          <div class="screen-card">
+            <div class="screen-img">
+              <img src="screenshots/dashboard.png" alt="Portal Dashboard">
+            </div>
+            <div class="screen-meta">
+              <div class="screen-name">Portal Dashboard</div>
+              <div class="screen-desc">Invoices · FAQs · Business</div>
+            </div>
+          </div>
+          <div class="screen-card">
+            <div class="screen-img">
+              <img src="screenshots/invoicingdashboard.png" alt="Invoice Dashboard">
+            </div>
+            <div class="screen-meta">
+              <div class="screen-name">Invoice Dashboard</div>
+              <div class="screen-desc">Invoices · Autopay</div>
+            </div>
+            <!-- <div class="screen-meta">
+              <div class="screen-name">Invoice detail &amp; PDF viewer</div>
+              <div class="screen-desc">Line items · embedded PDF · download</div>
+            </div> -->
+          </div>
+          <div class="screen-card">
+            <div class="screen-img"><img src="screenshots/download-invoice.png" alt="Download Invoice"></div>
+            <div class="screen-meta">
+              <div class="screen-name">Download Invoices</div>
+              <div class="screen-desc">Downloads Invoice as PDF</div>
+            </div>
+          </div>
+          <div class="screen-card">
+            <div class="screen-img"><img src="screenshots/make-payment.png" alt="Make A Payment"></div>
+            <div class="screen-meta">
+              <div class="screen-name">Make Payment</div>
+              <div class="screen-desc">Pay your invoices</div>
+            </div>
+          </div>
+          <div class="screen-card">
+            <div class="screen-img"><img src="screenshots/paymentconfirmation.png" alt="Payment Confirmation"></div>
+            <div class="screen-meta">
+              <div class="screen-name">Payment Confirmation</div>
+              <div class="screen-desc">Processing the payment</div>
+            </div>
+          </div>
+          <div class="screen-card">
+            <div class="screen-img"><img src="screenshots/payment-history.png" alt="Payment History"></div>
+            <div class="screen-meta">
+              <div class="screen-name">Payment history</div>
+              <div class="screen-desc">Transaction log</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- SLIDE 6 More Screens -->
+    <section class="slide bg-dark3" id="s6" data-title="More Screens">
+      <div class="glow glow--screens-b"></div>
+      <div class="slide-inner wide"><span class="eyebrow">Portal showcase · admin &amp; mobile</span>
+        <h2 class="slide-title slide-title--sm">Admin &amp; mobile <em>screens</em></h2>
+        <div class="screen-grid">
+          <div class="screen-card">
+            <div class="screen-img"><img src="screenshots/autopaysetup.png" alt="Autopay Setup"></div>
+            <div class="screen-meta">
+              <div class="screen-name">Autopay Setup</div>
+              <div class="screen-desc">Setup autopay mandates</div>
+            </div>
+          </div>
+          <div class="screen-card">
+            <div class="screen-img"><img src="screenshots/manageautopay.png" alt="Manage Autopay"></div>
+            <div class="screen-meta">
+              <div class="screen-name">Manage Autopay</div>
+              <div class="screen-desc">Enable, Disable, Modify payment methods</div>
+            </div>
+          </div>
+          <div class="screen-card">
+            <div class="screen-img"><img src="screenshots/payment-methods.png" alt="Payment Methods"></div>
+            <div class="screen-meta">
+              <div class="screen-name">Payment Methods</div>
+              <div class="screen-desc">Save your payment method for future use</div>
+            </div>
+          </div>
+          <div class="screen-card">
+            <div class="screen-img"><img src="screenshots/consolidated-invoices.png" alt="Consolidated Invoices"></div>
+            <div class="screen-meta">
+              <div class="screen-name">Consolidated Invoices</div>
+              <div class="screen-desc">Download consolidated invoices</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- SLIDE 7 Integrations -->
+    <section class="slide bg-dark" id="s7" data-title="Integrations">
+      <div class="grid-overlay"></div>
+      <div class="glow glow--integrations"></div>
+      <div class="slide-inner"><span class="eyebrow">Plug-in integrations</span>
+        <h2 class="slide-title slide-title--lg">Works with your <em>existing stack</em></h2>
+        <p class="slide-body">Every component is swappable — ERP, IAM, cloud, and payment gateway adapt without a
+          rewrite.</p>
+        <div class="int-wrap">
+          <div class="int-pill"><span class="int-dot"></span><span>
+              <div class="int-name">Oracle EBS R12/R11</div>
+              <div class="int-cat">ERP · invoicing</div>
+            </span></div>
+          <div class="int-pill"><span class="int-dot"></span><span>
+              <div class="int-name">Oracle Fusion Cloud</div>
+              <div class="int-cat">ERP · AR/AP Financials</div>
+            </span></div>
+          <div class="int-pill"><span class="int-dot"></span><span>
+              <div class="int-name">Azure AD / Entra ID</div>
+              <div class="int-cat">IAM · Enterprise SSO</div>
+            </span></div>
+          <div class="int-pill"><span class="int-dot"></span><span>
+              <div class="int-name">Stripe</div>
+              <div class="int-cat">Payment gateway</div>
+            </span></div>
+          <div class="int-pill"><span class="int-dot"></span><span>
+              <div class="int-name">JPMC / Chase</div>
+              <div class="int-cat">Payment gateway</div>
+            </span></div>
+          <div class="int-pill"><span class="int-dot"></span><span>
+              <div class="int-name">Adyen</div>
+              <div class="int-cat">Global payments</div>
+            </span></div>
+          <div class="int-pill"><span class="int-dot"></span><span>
+              <div class="int-name">SAP S/4HANA</div>
+              <div class="int-cat">ERP · alternate</div>
+            </span></div>
+          <div class="int-pill"><span class="int-dot"></span><span>
+              <div class="int-name">NetSuite</div>
+              <div class="int-cat">ERP · alternate</div>
+            </span></div>
+          <div class="int-pill"><span class="int-dot"></span><span>
+              <div class="int-name">Kafka · Service Bus</div>
+              <div class="int-cat">Events · messaging</div>
+            </span></div>
+        </div>
+      </div>
+    </section>
+    <!-- SLIDE 8 Compliance -->
+    <section class="slide bg-dark" id="s8" data-title="Compliance">
+      <div class="grid-overlay"></div>
+      <div class="glow glow--compliance"></div>
+      <div class="slide-inner wide"><span class="eyebrow">Security &amp; compliance</span>
+        <h2 class="slide-title slide-title--md">Built to pass <em>every audit</em></h2>
+        <div class="card-grid g4">
+          <div class="card">
+            <div class="card-icon">💳</div>
+            <h3>PCI-DSS v4.0</h3>
+            <ul>
+              <li>Card tokenisation via gateway</li>
+              <li>No raw card data stored</li>
+              <li>P2PE / 3D Secure 2 / SCA</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-icon">🌍</div>
+            <h3>GDPR &amp; CCPA</h3>
+            <ul>
+              <li>Data residency controls</li>
+              <li>Right to erasure</li>
+              <li>Consent management</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-icon">🔒</div>
+            <h3>SOC 2 · ISO 27001</h3>
+            <ul>
+              <li>Trust service criteria</li>
+              <li>ISMS risk-based controls</li>
+              <li>Annual third-party audit</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-icon">🔐</div>
+            <h3>Built-in security</h3>
+            <ul>
+              <li>TLS 1.3 · AES-256 at rest</li>
+              <li>RBAC / ABAC least privilege</li>
+              <li>WAF · DDoS protection</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- SLIDE 9 Benefits -->
+    <section class="slide bg-dark2" id="s9" data-title="Benefits">
+      <div class="grid-overlay"></div>
+      <div class="glow glow--benefits"></div>
+      <div class="slide-inner"><span class="eyebrow">Why choose this portal</span>
+        <h2 class="slide-title slide-title--lg"><span class="accent-text">Key benefits</span> for your clients</h2>
+        <div class="card-grid g3">
+          <div class="card">
+            <div class="card-icon">🚀</div>
+            <h3>Faster time-to-value</h3>
+            <p>Deploy to a new client in weeks, not months. Pre-built ERP adapters, IAM connectors, and payment modules
+              ship ready to configure.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">📱</div>
+            <h3>Mobile-first PWA</h3>
+            <p>Responsive on any device. Your customers pay invoices from their phone as easily as from their desktop.
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-icon">🔌</div>
+            <h3>Any ERP, any cloud</h3>
+            <p>Pluggable adapters for Oracle EBS, Fusion, SAP, and NetSuite. Deploy on Azure, OCI, or AWS without vendor
+              lock-in.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">🔒</div>
+            <h3>Enterprise security</h3>
+            <p>SSO, MFA, RBAC, end-to-end encryption, and PCI-DSS compliance out of the box. Passes Fortune 500 security
+              reviews.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">🎨</div>
+            <h3>Fully white-label</h3>
+            <p>Custom branding, domain, and colors per tenant. Your clients see their brand in every screen.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">📈</div>
+            <h3>Reduces finance overhead</h3>
+            <p>Self-service payments and invoice downloads eliminate high-volume AR calls by up to 70%.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- SLIDE 10 CTA -->
+    <section class="slide bg-dark" id="s10" data-title="Get Started">
+      <div class="grid-overlay"></div>
+      <div class="glow glow--cta"></div>
+      <div class="slide-inner center">
+        <div class="badge"><span class="pulse"></span>Available now for new client deployments</div>
+        <h2 class="slide-title slide-title--xl">Ready to deliver this<br>to your <em>next client?</em></h2>
+        <p class="slide-body">Let's walk through the live portal and tailor the architecture to your client's ERP, IAM,
+          and payment stack.</p>
+        <div class="hero-btns"><a href="mailto:suda@idproitc.com" class="btn btn-solid">📧 Schedule a demo</a><button
+            class="btn btn-outline" data-goto="3">📊 Review architecture</button></div>
+        <div class="contact-row">
+          <div class="contact-item">🌐 <strong>www.idproitc.com</strong></div>
+          <div class="contact-item">✉️ <strong>suda@idproitc.com</strong></div>
+          <div class="contact-item">📞 <strong>+1 (603) 521-0748</strong></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div id="lightbox" class="lightbox">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content"><button class="lightbox-close">&times;</button><img class="lightbox-image" src=""
+        alt="Full size screenshot"></div>
+  </div>
+
+  <script>
+    (function () {
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const N = slides.length;
+      let cur = 0, animating = false;
+      const navPills = document.getElementById('navPills');
+      const navCount = document.getElementById('navCounter');
+      const dotNav = document.getElementById('dotnav');
+
+      slides.forEach((s, i) => {
+        const b = document.createElement('button');
+        b.className = 'nav-pill' + (i === 0 ? ' active' : '');
+        b.textContent = s.dataset.title || (i + 1);
+        b.onclick = () => goTo(i);
+        navPills.appendChild(b);
+        const d = document.createElement('button');
+        d.className = 'dot' + (i === 0 ? ' active' : '');
+        d.onclick = () => goTo(i);
+        dotNav.appendChild(d);
+      });
+
+      function goTo(idx) {
+        if (idx === cur || animating) return;
+        animating = true;
+        const dir = idx > cur ? 1 : -1;
+        slides[cur].classList.remove('active');
+        slides[cur].classList.add(dir > 0 ? 'exit-left' : 'exit-right');
+        slides[idx].style.transform = 'translateX(' + (dir * 60) + 'px)';
+        slides[idx].style.opacity = '0';
+        slides[idx].classList.add('active');
+        slides[idx].getBoundingClientRect();
+        slides[idx].style.transform = '';
+        slides[idx].style.opacity = '';
+        const prev = cur;
+        cur = idx;
+        updateUI();
+        setTimeout(() => {
+          slides[prev].classList.remove('exit-left', 'exit-right');
+          slides[prev].style.transform = '';
+          slides[prev].style.opacity = '';
+          animating = false;
+        }, 520);
+      }
+      function go(d) { goTo(Math.max(0, Math.min(N - 1, cur + d))); }
+      function updateUI() {
+        navCount.textContent = (cur + 1) + ' / ' + N;
+        document.querySelectorAll('.nav-pill').forEach((b, i) => b.classList.toggle('active', i === cur));
+        document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+        document.getElementById('prevBtn').style.opacity = cur === 0 ? '0.25' : '1';
+        document.getElementById('nextBtn').style.opacity = cur === N - 1 ? '0.25' : '1';
+      }
+      updateUI();
+      document.getElementById('prevBtn').onclick = () => go(-1);
+      document.getElementById('nextBtn').onclick = () => go(1);
+      document.addEventListener('keydown', e => {
+        const lb = document.getElementById('lightbox');
+        if (lb && lb.classList.contains('active')) { if (e.key === 'Escape') closeLightbox(); return; }
+        if (e.key === 'ArrowRight') go(1);
+        if (e.key === 'ArrowLeft') go(-1);
+      });
+      let tx = 0;
+      document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+      document.addEventListener('touchend', e => { const dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1); }, { passive: true });
+      document.querySelectorAll('[data-goto]').forEach(btn => { btn.onclick = (e) => { e.preventDefault(); const idx = parseInt(btn.getAttribute('data-goto'), 10); if (!isNaN(idx)) goTo(idx); }; });
+
+      // LIGHTBOX
+      function openLightbox(src) {
+        const lb = document.getElementById('lightbox');
+        const img = lb.querySelector('.lightbox-image');
+        img.src = src;
+        lb.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeLightbox() {
+        const lb = document.getElementById('lightbox');
+        lb.classList.remove('active');
+        document.body.style.overflow = '';
+        setTimeout(() => { const img = lb.querySelector('.lightbox-image'); if (img) img.src = ''; }, 200);
+      }
+      window.closeLightbox = closeLightbox;
+      document.querySelectorAll('.screen-img img').forEach(img => {
+        img.style.cursor = 'pointer';
+        img.addEventListener('click', (e) => { e.stopPropagation(); if (img.src) openLightbox(img.src); });
+      });
+      document.querySelector('.lightbox-close').onclick = closeLightbox;
+      document.querySelector('.lightbox-overlay').onclick = closeLightbox;
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+      // minor fix: any demo link
+      document.querySelectorAll('a.btn-solid').forEach(a => { if (a.getAttribute('href') === 'mailto:suda@idproitc.com.com') a.href = 'mailto:suda@idproitc.com'; });
+    })();
+  </script>
+</body>
+
+</html>
